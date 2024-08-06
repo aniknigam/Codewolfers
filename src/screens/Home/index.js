@@ -1,33 +1,3 @@
-// import React from 'react'
-// import Navbar from '../../components/Navbar'
-// import Slides from './components/Slides'
-// import Introduction from './components/Introduction'
-// import Services from './components/Services'
-// import WorkFlow from './components/WorkFlow'
-// import MissionVision from './components/MissionVision'
-// import OurTeam from './components/OurTeam'
-// import Footer from '../../components/Footer'
-
-
-
-// const Home = () => {
-//   return (
-//     <div>
-//         <Navbar/>
-//         <Slides/>
-//         <Introduction/>
-//         <Services/>
-//         <OurTeam/>
-//         <WorkFlow/>
-//         <MissionVision/>
-//         <Footer/>
-//     </div>
-//   )
-// }
-
-// export default Home
-
-
 import React, { useRef } from 'react';
 import Navbar from '../../components/Navbar';
 import Slides from './components/Slides';
@@ -42,23 +12,34 @@ const Home = () => {
   const introRef = useRef(null);
   const servicesRef = useRef(null);
   const homeRef = useRef(null);
-  // const workflowRef = useRef(null);
   const missionVisionRef = useRef(null);
 
   const scrollToSection = (section) => {
-    if (section === 'introduction') {
-      introRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else if (section === 'services') {
-      servicesRef.current.scrollIntoView({ behavior: 'smooth' });
-    } 
-    // else if (section === 'ourTeam') {
-    //   teamRef.current.scrollIntoView({ behavior: 'smooth' });
-    // } 
-    else if (section === '/') {
-      homeRef.current.scrollIntoView({ behavior: 'smooth' });
-    } 
-    else if (section === 'missionVision') {
-      missionVisionRef.current.scrollIntoView({ behavior: 'smooth' });
+    const navbarHeight = document.querySelector('nav').offsetHeight;
+    let sectionRef;
+
+    switch (section) {
+      case 'introduction':
+        sectionRef = introRef;
+        break;
+      case 'services':
+        sectionRef = servicesRef;
+        break;
+      case 'missionVision':
+        sectionRef = missionVisionRef;
+        break;
+      case '/':
+        sectionRef = homeRef;
+        break;
+      default:
+        return;
+    }
+
+    if (sectionRef.current) {
+      window.scrollTo({
+        top: sectionRef.current.offsetTop - navbarHeight,
+        behavior: 'smooth',
+      });
     }
   };
 
@@ -71,7 +52,7 @@ const Home = () => {
       <div><OurTeam /></div>
       <div><WorkFlow /></div>
       <div ref={missionVisionRef}><MissionVision /></div>
-      <Footer scrollToSection={scrollToSection}/>
+      <Footer scrollToSection={scrollToSection} />
     </div>
   );
 };
